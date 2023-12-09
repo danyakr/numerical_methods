@@ -1,5 +1,8 @@
+
 from math import sin, cos, ceil, sqrt
 
+import matplotlib.pyplot as plt
+import numpy as np
 
 def integral_value():
     """ Функция запрашивает у пользователя нижний и верхний предел интегрирования
@@ -30,12 +33,13 @@ def integral_value_extend():
     return e
 
 
-def integral_left(a, b, n):
+def integral_left():
     """ Функция вычисляет приближенное значение определенного интеграла
     методом прямоугольников левых частей
 
     Для примера берется подынтегральная функция вида: cos(x ** 2 + 0.6) / (1.2 + sin(0.7 * x + 0.2))
     """
+    a, b, n = integral_value()
     h = (b - a) / n
 
     x = a
@@ -47,12 +51,13 @@ def integral_left(a, b, n):
     print(f'\nИнтеграл равен: {h * s}')
 
 
-def integral_right(a, b, n):
+def integral_right():
     """ Функция вычисляет приближенное значение определенного интеграла
     методом прямоугольников правых частей
 
     Для примера берется подынтегральная функция вида: cos(x ** 2 + 0.6) / (1.2 + sin(0.7 * x + 0.2))
     """
+    a, b, n = integral_value()
     h = (b - a) / n
 
     x = a + h
@@ -64,12 +69,13 @@ def integral_right(a, b, n):
     print(f'\nИнтеграл равен: {h * s}')
 
 
-def integral_trap(a, b, n):
+def integral_trap():
     """ Функция вычисляет приближенное значение определенного интеграла
     методом трапеций
 
     Для примера берется подынтегральная функция вида: cos(x ** 2 + 0.6) / (1.2 + sin(0.7 * x + 0.2))
     """
+    a, b, n = integral_value()
     h = (b - a) / n
 
     f0 = cos(a ** 2 + 0.6) / (1.2 + sin(0.7 * a + 0.2))
@@ -84,13 +90,13 @@ def integral_trap(a, b, n):
     print(f'\nИнтеграл равен: {h * ((f0 + fn) / 2 + s)}')
 
 
-def integral_simp(a, b, n):
+def integral_simp():
     """ Функция вычисляет приближенное значение определенного интеграла
     методом парабол(Симпсона)
 
     Для примера берется подынтегральная функция вида: cos(x ** 2 + 0.6) / (1.2 + sin(0.7 * x + 0.2))
     """
-
+    a, b, n = integral_value()
     h = (b - a) / n
     f0 = cos(a ** 2 + 0.6) / (1.2 + sin(0.7 * a + 0.2))
     fn = cos(b ** 2 + 0.6) / (1.2 + sin(0.7 * b + 0.2))
@@ -110,7 +116,7 @@ def integral_simp(a, b, n):
     print(f'\nИнтеграл равен: {(h / 3) * ((f0 + fn) + 2 * s2 + 4 * s1)}')
 
 
-def integral_left_rem(a, b, n):
+def integral_left_rem():
     """ Функция вычисляет приближенное значение определенного интеграла
     методом прямоугольников левых частей
 
@@ -119,6 +125,8 @@ def integral_left_rem(a, b, n):
 
     Для примера берется подынтегральная функция вида: 1 / sqrt(x + 2)
     """
+    a, b, e = integral_value_rem()
+    n = calc_remainder_term(a, b, e)
     h = (b - a) / n
 
     x = a
@@ -127,7 +135,7 @@ def integral_left_rem(a, b, n):
         s = s + (1 / sqrt(x + 2))
         x = x + h
 
-    return h * s
+    print(f'Интеграл равен: {round(h * s, determine_precision_digits(e))}')
 
 
 def calc_remainder_term(a, b, e):
@@ -188,8 +196,10 @@ def integral_left_h(a, b, h):
     return h * s
 
 
-def double_counter(a, b, n, precision):
+def double_counter():
     """Функция вычисляет приближенное значение определенного интеграла методом двойного пересчета"""
+    a, b, n = integral_value()
+    precision = integral_value_extend()
 
     e = precision
     h = (b - a) / n
@@ -224,8 +234,9 @@ def integral_value_mult():
     return a, b, c, d, dx, dy
 
 
-def multiple_integral(a, b, c, d, dx, dy):
+def multiple_integral():
     """Функция вычисляет приближенное значение кратных интегралов"""
+    a, b, c, d, dx, dy = integral_value_mult()
 
     integral_sum = 0.0
     x = a
@@ -236,3 +247,248 @@ def multiple_integral(a, b, c, d, dx, dy):
             y += dy
         x += dx
     print(f'\nИнтеграл равен: {integral_sum}')
+
+
+def eulers_method():
+    """
+    Функция реализующая метод Эйлера для уравнения y’ = y*(1 - x) на отрезке [0; 1] с
+    начальными условиями x0= 0, y0= 1 и осуществляющая вывод графика.
+    """
+
+    # Определим функцию, представляющую данное дифференциальное уравнение
+    def f(x, y):
+        return y * (1 - x)
+
+    # Начальные условия и параметры
+    x0, y0 = 0, 1
+    xf = 1
+    n = 10  # количество разбиений
+    h = (xf - x0) / n
+
+    # Массивы для хранения значений
+    x_values = [x0]
+    y_values = [y0]
+
+    # Метод Эйлера
+    for i in range(n):
+        y0 = y0 + h * f(x0, y0)
+        x0 = x0 + h
+        x_values.append(x0)
+        y_values.append(y0)
+
+    # Вывод в виде таблицы
+    print(" x        y ")
+    print("------------")
+    for i in range(n + 1):
+        print(f"{x_values[i]:.2f}    {y_values[i]:.2f}")
+
+    # Визуализация результатов
+    plt.plot(x_values, y_values, 'b', label='Solution')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Решение y\' = y*(1 - x) используя метод Эйлера')
+    plt.legend()
+    plt.show()
+
+
+def runge_kutta_method():
+    """
+    Функция реализующая метод Рунге-Кутта для уравнения y’ = y*(1 - x) на отрезке [0; 1] с
+    начальными условиями x0= 0, y0= 1 и осуществляющая вывод графика.
+    """
+
+    # Определим функцию, представляющую данное дифференциальное уравнение
+    def f(x, y):
+        return y * (1 - x)
+
+    # Начальные условия и параметры
+    x0, y0 = 0, 1
+    xf = 1
+    n = 10  # количество шагов
+    h = (xf - x0) / n
+
+    # Массивы для хранения значений
+    x_values = [x0]
+    y_values = [y0]
+
+    # Метод Рунге-Кутта
+    for i in range(n):
+        k1 = h * f(x_values[-1], y_values[-1])
+        k2 = h * f(x_values[-1] + 0.5 * h, y_values[-1] + 0.5 * k1)
+        k3 = h * f(x_values[-1] + 0.5 * h, y_values[-1] + 0.5 * k2)
+        k4 = h * f(x_values[-1] + h, y_values[-1] + k3)
+
+        x_values.append(x_values[-1] + h)
+        y_values.append(y_values[-1] + (k1 + 2 * k2 + 2 * k3 + k4) / 6)
+
+    # Вывод в виде таблицы
+    print(" x        y ")
+    print("------------")
+    for i in range(n + 1):
+        print(f"{x_values[i]:.2f}    {y_values[i]:.2f}")
+
+    # Визуализация результатов
+    plt.plot(x_values, y_values, 'b', label='Solution')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Решение y\' = y*(1 - x) используя метод Рунге-Кутта')
+    plt.legend()
+    plt.show()
+
+
+def eulers_method2():
+    """
+    Применяя метод Эйлера функция составляет на отрезке [1; 1,5]
+    таблицу значений решения уравнения y’’ + y’/x + y = 0
+    с начальными условиями: y(1) = 0.77, y’ (1) = - 0.44.
+
+    Шаг вычисления h = 0.1
+    """
+
+    # Определим функцию, представляющую данное дифференциальное уравнение
+    def y_derivative(x, y, z):
+        return z, (-z / x) - y
+
+    # Начальные условия
+    x0 = 1
+    y0 = 0.77
+    z0 = -0.44
+    h = 0.1
+    n = 10
+
+    x_values = [x0]
+    y_values = [y0]
+
+    # Применение метода Эйлера
+    for i in range(n):
+        y_der = y_derivative(x_values[-1], y_values[-1], z0)
+        y_new = y_values[-1] + h * y_der[0]
+        z0 += h * y_der[1]
+        x_values.append(x_values[-1] + h)
+        y_values.append(y_new)
+
+    # Интегральная прямая
+    plt.plot(x_values, y_values, label='Solution')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Решение y’’ + y’/x + y = 0 используя метод Эйлера')
+    plt.legend()
+    plt.show()
+
+    # Таблица значений
+    print(" x    |     y ")
+    print("--------------")
+    for i in range(len(x_values)):
+        print(f"{x_values[i]:.2f}  |  {y_values[i]:.2f}")
+
+
+def runge_kutta_method2():
+    """
+    Применяя метод Рунге-Кутта функция составляет на отрезке [1; 1,5]
+    таблицц значений решения уравнения y’’ + y’/x + y = 0
+    с начальными условиями: y(1) = 0.77, y’ (1) = - 0.44.
+
+    Шаг вычисления h = 0.1
+    """
+
+
+    # Определяем функции, обозначающие данное дифференциальное уравнение
+    def f(x, y, z):
+        return z, (-z / x) - y
+
+    # Начальные условия и параметры
+    x0 = 1
+    y0 = 0.77
+    z0 = -0.44
+    h = 0.1
+    n = 10
+
+    x_values = [x0]
+    y_values = [y0]
+
+    # Метод Рунге-Кутта
+    for i in range(n):
+        k1y, k1z = h * z0, h * (-(z0 / x0) - y0)
+        k2y, k2z = h * (z0 + 0.5 * k1z), h * (-(z0 + 0.5 * k1z) / (x0 + 0.5 * h) - (y0 + 0.5 * k1y))
+        k3y, k3z = h * (z0 + 0.5 * k2z), h * (-(z0 + 0.5 * k2z) / (x0 + 0.5 * h) - (y0 + 0.5 * k2y))
+        k4y, k4z = h * (z0 + k3z), h * (-(z0 + k3z) / (x0 + h) - (y0 + k3y))
+
+        y0 += (k1y + 2 * k2y + 2 * k3y + k4y) / 6
+        z0 += (k1z + 2 * k2z + 2 * k3z + k4z) / 6
+        x0 += h
+
+        x_values.append(x0)
+        y_values.append(y0)
+
+    # Интегральная прямая
+    plt.plot(x_values, y_values, label='Solution')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Решение y’’ + y’/x + y = 0 используя метод Рунге-Кутта')
+    plt.legend()
+    plt.show()
+
+    # Таблица значений
+    print(" x    |    y ")
+    print("-------------")
+    for i in range(len(x_values)):
+        print(f"{x_values[i]:.2f}  |  {y_values[i]:.2f}")
+
+
+def system_of_differential_equations():
+    """
+    Функция для решения системы дифференциальных уравнений
+    dy/dt = - 2x + 5z
+    dy/dt = sin(t – 1)x – y + 3z
+    dz/dt = - x +2z
+
+    Начальные условия: x(0) = 2, y(0) = 1, z(0) = 1
+    Составляет таблицу значений функций x(t), y(t), z(t) на отрезке [0; 0.3] с шагом h = 0.003.
+    Использован метод Эйлера.
+    """
+
+    # Определим функции, представляющие систему уравнений
+    def dx_dt(x, y, z):
+        return -2 * x + 5 * z
+
+    def dy_dt(t, x, y, z):
+        return np.sin(t - 1) * x - y + 3 * z
+
+    def dz_dt(x, z):
+        return -x + 2 * z
+
+    # Начальные условия и параметры
+    a = 0
+    b = 0.3
+    h = 0.03
+    n = int((b - a) / h)
+
+    t = a
+    x = 2  # x(0) = 2
+    y = 1  # y(0) = 1
+    z = 1  # z(0) = 1
+
+    # Массивы для хранения значений
+    t_values = [t]
+    x_values = [x]
+    y_values = [y]
+    z_values = [z]
+
+    # Применение метода Эйлера
+    for i in range(n):
+        x += h * dx_dt(x, y, z)
+        y += h * dy_dt(t, x, y, z)
+        z += h * dz_dt(x, z)
+        t += h
+
+        t_values.append(t)
+        x_values.append(x)
+        y_values.append(y)
+        z_values.append(z)
+
+    # Визуализация результатов
+    print(" t    |   x    |   y    |   z")
+    print("-------------------------------")
+    for i in range(n + 1):
+        # print(round(t_values[i], 2), "  |  ", round(x_values[i], 2), "  |  ", round(y_values[i], 2), "  |  ", round(z_values[i], 2))
+        print(f"{t_values[i]:.2f}  |  {x_values[i]:.2f}  |  {y_values[i]:.2f}  |  {z_values[i]:.2f}")
