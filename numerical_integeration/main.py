@@ -105,11 +105,25 @@ while True:
                 print('Выберите пункт меню')
 
     elif num == 3:
-        print('Coming soon...')
+        while True:
+            print('\nВыберите метод:\n')
+            print('\t1. Метод деления отрезка пополам\n'
+                  '\t2. Метод хорд\n'
+                  '\t3. Метод касательных\n'
+                  '\t4. Назад\n')
 
+            num = int(input('Введите цифру: '))
 
-        def nonlinear():
-            pass
+            if num == 1:
+                func.dichotomy_method()
+            elif num == 2:
+                func.chord_method()
+            elif num == 3:
+                func.newton_method()
+            elif num == 4:
+                break
+            else:
+                print('Выберите пункт меню')
 
     elif num == 4:
         print('Coming soon...')
