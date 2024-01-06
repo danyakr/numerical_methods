@@ -126,11 +126,54 @@ while True:
                 print('Выберите пункт меню')
 
     elif num == 4:
-        print('Coming soon...')
+        while True:
+            print('\nВыберите метод:\n')
+            print('\t1. Метод Чебышева\n'
+                  '\t2. Метод итераций\n'
+                  '\t3. Назад\n')
 
+            num = int(input('Введите цифру: '))
 
-        def elementary_functions():
-            pass
+            if num == 1:
+                while True:
+                    print('\nВыберите элементарную функцию:\n')
+                    print('\t1. e^x\n'
+                          '\t2. sin(x)\n'
+                          '\t3. Назад\n')
+
+                    num1 = int(input('Введите цифру: '))
+
+                    if num1 == 1:
+                        func.my_e()
+                    elif num1 == 2:
+                        func.my_sin()
+                    elif num1 == 3:
+                        break
+                    else:
+                        print('Выберите пункт меню')
+
+            elif num == 2:
+                while True:
+                    print('\nВыберите элементарную функцию:\n')
+                    print('\t1. sqrt(x)\n'
+                          '\t2. 1/sqrt(x)\n'
+                          '\t3. Назад\n')
+
+                    num1 = int(input('Введите цифру: '))
+
+                    if num1 == 1:
+                        func.print_result_sqrt()
+                    elif num1 == 2:
+                        func.print_result_rsqrt()
+                    elif num1 == 3:
+                        break
+                    else:
+                        print('Выберите пункт меню')
+
+            elif num == 3:
+                break
+            else:
+                print('Выберите пункт меню')
 
     elif num == 5:
         print('Завершение')
