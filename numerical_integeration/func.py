@@ -1,5 +1,4 @@
-
-from math import sin, cos, ceil, sqrt, log10
+from math import sin, ceil, sqrt, log10, pi, cos
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -244,7 +243,7 @@ def multiple_integral():
     while x < b:
         y = c
         while y < d:
-            integral_sum += (x**2 + y**2) * dx * dy
+            integral_sum += (x ** 2 + y ** 2) * dx * dy
             y += dy
         x += dx
     print(f'\nИнтеграл равен: {integral_sum}')
@@ -506,6 +505,7 @@ def dichotomy_method():
 
     В качестве примера находится корень уравнения 2x^4 - 8x^3 + 8x^2 - 1 на отрезке [-1; 0]
     """
+
     def y(x):
         return (2 * x ** 4) - (8 * x ** 3) + (8 * x ** 2) - 1
 
@@ -519,7 +519,7 @@ def dichotomy_method():
 
     # Находим середину отрезка
     x = (a + b) / 2
-    while abs(b - a) >= h:
+    while abs(b - a) >= 2 * h:
         # При попадании в полосу шумов завершаем итерационный процесс
         if abs(y(x)) < h:
             break
@@ -555,7 +555,7 @@ def chord_method():
         e = 0.001
 
     # Уравнение для точки пересечения прямой с осью абсцисс (x=х0,у=0)
-    x = a - ((b - a) / (y(b) - y(a)))*y(a)
+    x = a - ((b - a) / (y(b) - y(a))) * y(a)
     # Заканчиваем процесс уточнения корня, когда расстояние между очередными приближениями
     # станет меньше заданной точности
     while abs(b - x) >= e:
@@ -569,7 +569,7 @@ def chord_method():
         else:
             print('Ошибка!')
             return None
-        x = a - ((b - a) / (y(b) - y(a)))*y(a)
+        x = a - ((b - a) / (y(b) - y(a))) * y(a)
 
     print(f'Приближенное значение x с точностью {e} равно', round(x, int(abs(log10(e)))))
 
@@ -609,3 +609,58 @@ def newton_method():
         x = b - (y(b) / derivative_y(b))
 
     print(f'Приближенное значение x с точностью {h} равно', round(x, int(abs(log10(h)))))
+
+
+# functions for solving nonlinear equations
+
+# Коэффициенты a для разложения в ряд Чебышева
+coefficients = [0.9999998, 1.0000000, 0.5000063, 0.1666674, 0.0416350, 0.0083298, 0.0014393, 0.0002040]
+
+
+# Функция для вычисления значения e^x приблизительно с помощью ряда Чебышева
+def my_e(x=1, accuracy=2 * 10 ** (-7)):
+    a = [0.9999998, 1, 0.5000063, 0.1666674, 0.041635, 0.0083298, 0.0014393, 0.000204]
+    sum = 0
+    for k in range(len(a)):
+        sum += a[k] * (x ** k)
+        if abs(a[k] * (x ** k)) < accuracy:
+            break
+    print(f"Приблизительное значение e^x с использованием ряда Чебышева: {round(sum, 7)}")
+
+
+def my_sin(x=pi / 2, accuracy=10 ** (-9)):
+    a = [1.000000002, -0.166666589, 0.008333075, -0.000198107, 0.000002608]
+    sum = 0
+    for k in range(len(a)):
+        U = a[k] * x ** (2 * k + 1)
+        sum += U
+        if abs(U) < accuracy:
+            break
+    print(f"Приблизительное значение sin(x) с использованием ряда Чебышева: {round(sum, int(abs(log10(accuracy))))}")
+
+
+def print_result_sqrt():
+    def my_sqrt(x, y0, accuracy=10 ** (-9)):
+        U = 1
+        while abs(U) > accuracy:
+            y1 = (y0 + x / y0) / 2
+            U = y1 - y0
+            y0 = y1
+        return y1
+
+    print(f"Приблизительное значение квадратного корня 14,76 равно: {round(my_sqrt(14.76, 3.8), 9)}")
+    print(f"Приблизительное значение квадратного корня 0,142 равно: {round(my_sqrt(0.142, 0.4), 9)}")
+
+
+def print_result_rsqrt():
+    def rsqrt(x, y0, accuracy=0.00001):
+        U = 1
+        y1 = 0
+        while abs(U) > accuracy:
+            y1 = (y0 / 2) * (3 - x * y0 * y0)
+            U = y1 - y0
+            y0 = y1
+        return y1
+
+    print(f"Приблизительное обратное значение квадратного корня 17,32 равно: {round(rsqrt(17.32, 0.24), 6)}")
+    print(f"Приблизительное обратное значение квадратного корня 0,464 равно: {round(rsqrt(0.464, 1.5), 6)}")
