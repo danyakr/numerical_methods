@@ -1,10 +1,67 @@
-# numerical_methods
-A repository that implements some numerical methods for calculating integrals. 
-There are such calculation methods as: rectangles of the left and right parts, trapezoids, Simpson. 
-It is also possible to carry out calculations with a given accuracy; for this purpose, 
-the calculation of the remainder term (for the method of rectangles of the left sides) and 
-the double recalculation algorithm are implemented. The program also allows you to calculate multiple integrals.
-You can also solve differential equations using the Euler method or the Runge-Kutta method. Implemented Euler's method for electron second order, Runge-Kutta method for initial second order and solution of systems of differential equations.
-The following approximate methods are supported for solving systems of nonlinear equations: the bisection method, the chord method and the tangent method.
-There are functions for finding the approximate value of some specific elementary functions, using two methods: Chebyshev and iterations.
+# Numerical Methods
 
+A repository that implements various numerical methods for calculating integrals.
+
+### Methods for calculating integrals with constant and variable steps:
+- Rectangles Method (left and right parts)
+- Trapezoids Method
+- Simpson's Method
+- First algorithm
+- Second algorithm
+
+### Additional Features:
+- Calculation with a specified accuracy, including the calculation of the remainder term (for the rectangles of the left parts method)
+- Double recalculation algorithm
+
+### Integration Work:
+- Ability to compute multiple integrals
+
+### Solving Differential Equations:
+- Euler's Method
+- Runge-Kutta Method
+- Euler's Method for second-order differential equations
+- Runge-Kutta Method for second-order initial value problems
+- Solution of systems of differential equations
+
+### Approximate Methods for Solving Systems of Nonlinear Equations:
+- Bisection Method
+- Chord Method
+- Tangent Method
+
+### Functions for Finding Approximate Values of Specific Elementary Functions:
+- Using Chebyshev and iteration methods
+
+---
+
+# Численные методы
+
+Репозиторий, в котором реализованы некоторые численные методы для расчета интегралов.
+
+### Методы расчета интегралов с постоянным и переменным шагом:
+- Метод прямоугольников (левой и правой частей)
+- Метод трапеций
+- Метод Симпсона
+- Первый алгоритм
+- Второй алгоритм
+
+### Дополнительные возможности:
+- Расчет с заданной точностью, включая расчет остаточного члена (для метода прямоугольников левых частей)
+- Двойной алгоритм пересчета
+
+### Работа с интегралами:
+- Возможность вычисления кратных интегралов
+
+### Решение дифференциальных уравнений:
+- Метод Эйлера
+- Метод Рунге-Кутта
+- Метод Эйлера для уравнений второго порядка
+- Метод Рунге-Кутта для уравнений второго порядка
+- Решение систем дифференциальных уравнений
+
+### Приближенные методы решения систем нелинейных уравнений:
+- Метод деления отрезка пополам
+- Метод хорд
+- Метод касательных
+
+### Функции для нахождения приближенного значения некоторых элементарных функций:
+- Используется два метода: Чебышева и итерации
